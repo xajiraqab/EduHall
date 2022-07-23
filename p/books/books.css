@@ -1,0 +1,26 @@
+.main_grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(256px, 1fr));
+  gap: 2em;
+}
+
+img {
+  border-radius: 16px;
+}
+
+
+@media only screen and (max-width: 600px) {
+
+  main {
+    padding: 2em 1em;
+    border-radius: 0;
+  }
+
+  .main_grid img {
+    height: auto;
+  }
+
+  .file_image {
+    margin: auto;
+  }
+}

@@ -1,0 +1,165 @@
+@import "input.css";
+@import "button.css";
+@import "animations.css";
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@100;200;300;400;500;600;700;800;900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+:root {
+  --clr_primary: hsl(196, 58%, 38%);
+  --clr_primaryLighter: hsl(196, 58%, 68%);
+  --clr_primaryLighter2: hsl(196, 58%, 85%);
+  --clr_primaryLighter3: hsl(196, 58%, 90%);
+  --clr_secondary: #DE1E38;
+
+  --clr_red: hsl(346, 55%, 38%);
+  --clr_red1: hsl(346, 55%, 68%);
+  --clr_red2: hsl(346, 55%, 85%);
+  --clr_red3: hsl(346, 55%, 90%);
+
+  --clr_orange: hsl(36, 96%, 46%);
+  --clr_orange1: hsl(36, 96%, 68%);
+  --clr_orange2: hsl(36, 96%, 85%);
+  --clr_orange3: hsl(36, 96%, 90%);
+
+  --clr_border: #dfdfdf;
+  --clr_c1: #333;
+  --clr_c2: #666;
+  --clr_c3: #B4B4B4;
+  --shadow_focus: inset 0 0 0px 1px var(--clr_primary);
+  --hover_focus: 2px 4px 12px var(--clr_border);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  outline: none;
+  box-sizing: border-box;
+  font-family: 'Noto Sans Georgian', 'Roboto', 'Noto Sans Georgian', sans-serif;
+  line-height: 1.5;
+  letter-spacing: .2px;
+  color: var(--clr_c1);
+}
+
+*:focus {
+  outline: none;
+}
+
+::selection {
+  color: white;
+  background: var(--clr_primary);
+}
+
+h1, h2, h3, h4 {
+  text-transform: capitalize;
+}
+
+body {
+  font-size: 16px;
+  height: 100vh;
+  background-color: #FFF1E6;
+  overflow-y: scroll;
+}
+
+.flex {
+  display: flex;
+  gap: 1em;
+}
+
+.clr_primary {
+  color: var(--clr_primary);
+}
+
+main {
+  width: 1000px;
+  max-width: 100%;
+  margin: auto;
+  margin-top: 150px;
+  background: white;
+  padding: 3em;
+  border-radius: 16px;
+  box-shadow: 2px 4px 16px rgba(0, 0, 0, 0.1);
+  animation: anShowUp ease 450ms;
+}
+
+.hidden {
+  display: none;
+}
+
+input, textarea, select {
+  font: inherit;
+}
+
+#pdf {
+  z-index: 101;
+  position: fixed;
+  left: 50%;
+  width: 900px;
+  max-width: 100%;
+  transform: translateX(-50%);
+  bottom: 50px;
+  top: 50px;
+  animation: anOpacityIn ease 250ms;
+}
+
+#pdfCover {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 100;
+  background-color: rgba(0, 0, 0, 0.5);
+  animation: anOpacityIn ease 250ms;
+}
+
+.img_container {
+  display: block;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.img_container img {
+  border-radius: 16px;
+  transition: transform ease 450ms, opacity ease 450ms;
+}
+
+.img_container:hover img {
+  transform: scale(1.05) rotate(2deg);
+  opacity: 0.96;
+}
+
+.file_image {
+  width: 256px;
+  height: 256px;
+  background: #f1f1f1;
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+}
+
+.file_image img[src=""] {
+  display: none;
+}
+
+.file_image svg {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.file_image img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+
+.file_image input {
+  display: none;
+}
+
+@media only screen and (max-width: 600px) {
+  main {
+    margin-top: 50px;
+  }
+}

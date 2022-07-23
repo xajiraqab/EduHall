@@ -1,0 +1,95 @@
+button {
+    cursor: pointer;
+    border: none;
+    background: var(--clr_primary);
+    /* background: linear-gradient(var(--clr_c1), var(--clr_c1)); */
+    color: #fafafa;
+    border-radius: 5px;
+    font-family: inherit;
+    font-size: 1rem;
+    height: 50px;
+    transition: filter ease 450ms;
+    text-transform: capitalize;
+    padding: 0 1em;
+}
+
+
+button.red {
+    background: var(--clr_red);
+}
+
+button:hover {
+    /* background: dodgerblue; */
+    filter: brightness(1.2)
+}
+
+button:active {
+    filter: brightness(1);
+}
+
+button.action {
+    transition: background-color ease 250ms;
+    background-color: var(--clr_primaryLighter3);
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    display: inline-grid;
+    place-content: center;
+    /* box-shadow: 1px 1px 4px rgb(0 0 0 / 30%); */
+}
+
+button.disabled {
+    background: rgb(107, 107, 107);
+    pointer-events: none;
+}
+
+button.action:hover {
+    background-color: var(--clr_primaryLighter2);
+    filter: none;
+}
+
+button.flat {
+    font-weight: 500;
+    color: var(--clr_primary);
+    background: var(--clr_primaryLighter3);
+}
+
+button.flat:hover {
+    filter: none;
+    background: var(--clr_primaryLighter2);
+}
+
+button.flat.red {
+    color: vaR(--clr_red);
+    background: var(--clr_red3);
+}
+
+button.flat.red:hover {
+    background: var(--clr_red2);
+}
+
+button.red svg {
+    fill: var(--clr_red);
+}
+
+button.red.action {
+    background-color: var(--clr_red3);
+}
+
+button.red.action:hover {
+    background-color: var(--clr_red2);
+    filter: none;
+}
+
+button.orange svg {
+    fill: var(--clr_orange);
+}
+
+button.orange.action {
+    background-color: var(--clr_orange3);
+}
+
+button.orange.action:hover {
+    background-color: var(--clr_orange2);
+    filter: none;
+}

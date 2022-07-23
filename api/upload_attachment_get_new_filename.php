@@ -1,0 +1,1 @@
+<?php echo json_encode(["filename" => uniqid()]) ?>

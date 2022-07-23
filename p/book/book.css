@@ -1,0 +1,113 @@
+main {
+  display: grid;
+  grid-template-columns: 256px 1fr;
+  gap: 2em;
+}
+
+img {
+  border-radius: 16px;
+}
+
+.col_right {
+  display: grid;
+  gap: 3em;
+  align-content: start;
+}
+
+.grid {
+  display: grid;
+  gap: .5em;
+}
+
+video {
+  width: 100%;
+}
+
+audio {
+  width: 100%;
+}
+
+p {
+  margin-top: .5em;
+}
+
+p>span {
+  font-weight: bold;
+}
+
+label {
+  display: flex;
+  align-items: center;
+  gap: 2em;
+}
+
+details, .pdf {
+  color: var(--clr_c1);
+  width: 100%;
+  border: 1px solid var(--clr_border);
+  border-radius: 5px;
+  padding: .5em .5em 0;
+  overflow: hidden;
+}
+
+.pdf {
+  font: inherit;
+  text-align: left;
+  margin: 0;
+  padding: 0.5em;
+  background: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 56px;
+  position: relative;
+}
+
+summary {
+  cursor: pointer;
+  margin: -.5em -.5em 0;
+  padding: .5em;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid transparent;
+  height: 56px;
+}
+
+summary:hover, .pdf:hover {
+  filter: none;
+  background: #f1f1f1;
+}
+
+details[open] {
+  padding: .5em;
+}
+
+details[open] summary {
+  border-bottom: 1px solid var(--clr_border);
+}
+
+summary button, .pdf button {
+  width: 40px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  height: 40px;
+  opacity: 0;
+
+}
+
+summary:hover button, .pdf:hover button {
+  transition: opacity ease 250ms;
+  opacity: 1;
+}
+
+@media only screen and (max-width: 600px) {
+  main {
+    grid-template-columns: 1fr;
+    padding: 2em 1em;
+    border-radius: 0;
+  }
+}

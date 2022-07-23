@@ -1,0 +1,1 @@
+<footer><style>footer {height: 60px; display: flex; width: 1000px; max-width: 100%; padding: 1em; margin: auto; margin-top: 200px; justify-content: end; }</style><a href="https://github.com/xajiraqab" target="_blank"><img src="../../images/github.png" alt="github" /></a></footer>

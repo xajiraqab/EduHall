@@ -1,0 +1,81 @@
+.txtContainer span {
+    color: crimson;
+    font-size: .9rem;
+    margin-top: 5px;
+    display: none;
+}
+
+label.txt {
+    display: grid;
+    gap: 5px;
+    position: relative;
+    font-size: 1rem;
+    transition: color ease 450ms;
+    color: #666;
+    text-transform: capitalize;
+    font-weight: 400;
+    align-content: start;
+}
+
+label.txt div {
+    display: flex;
+    align-items: center;
+    gap: 1ch;
+}
+
+label.txt>input,
+label.txt>textarea {
+    border: 1px solid #dfdfdf;
+    border-radius: 5px;
+    padding: 0 .5em;
+    height: 50px;
+    font: inherit;
+    font-size: 1.1rem;
+    transition: border-color ease 450ms, background-color ease 450ms;
+    background: #fff;
+    color: var(--clr_c1);
+}
+
+label.txt>input,
+label.txt>textarea {
+    background: #f1f1f1;
+    border-color: #f1f1f1;
+}
+
+label.txt::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 4px;
+    height: 4px;
+    transform-origin: bottom center;
+    transform: scale(0.3);
+    opacity: 0;
+    transition: transform ease 450ms, opacity ease 450ms;
+    background-color: var(--clr_primary);
+}
+
+label.txt:focus-within {
+    color: var(--clr_primary);
+}
+
+label.txt:focus-within input,
+label.txt:focus-within textarea {
+    outline: none;
+    background: #fff;
+    border-color: hsl(196, 58%, 68%);
+}
+
+label.txt:focus-within::after {
+    transform: scale(1);
+    opacity: 1;
+}
+
+label.txt textarea {
+    padding-top: .5em;
+    padding-bottom: .5em;
+    resize: none;
+    height: 200px;
+}

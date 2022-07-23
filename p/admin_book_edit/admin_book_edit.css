@@ -1,0 +1,34 @@
+.admin_book_edit-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(256px, 1fr));
+  gap: 2em;
+}
+
+form {
+  display: grid;
+  gap: 2em;
+}
+
+.txt div {
+  display: flex;
+  align-items: center;
+  gap: 1ch;
+}
+
+main button {
+  width: 200px;
+  margin-top: 2em;
+  justify-self: center;
+}
+
+@media only screen and (max-width: 600px) {
+
+  main {
+    padding: 2em 1em;
+    border-radius: 0;
+  }
+
+  .file_image {
+    margin: auto;
+  }
+}

@@ -1,0 +1,89 @@
+#contact .grid_twocol {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3em;
+}
+
+#contact #form_contact {
+  display: grid;
+  gap: 1em;
+  position: relative;
+}
+
+#contact #form_contact button {
+  margin-top: 1em;
+}
+
+#contact h2 {
+  margin-bottom: .6em;
+}
+
+#contact p {
+  min-height: 34px;
+}
+
+#contact a {
+  text-decoration: none;
+  font-size: 1rem;
+  margin: 0;
+  transition: color ease 250ms;
+  font-weight: 500;
+  color: var(--clr_primary);
+}
+
+#contact a:hover {
+  color: var(--clr_primary);
+  text-decoration: underline;
+}
+
+#contact .with_image {
+  display: flex;
+  align-items: center;
+  gap: .5em;
+}
+
+#lblSuccess {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 60px;
+  bottom: 0;
+  background-color: red;
+  background: white;
+  display: grid;
+  place-items: center;
+  display: none;
+  border: 1px solid #dfdfdf;
+  border-radius: 16px;
+  padding: 1em;
+}
+
+#lblSuccess svg {
+  fill: var(--clr_primary);
+  animation: anShowUp ease 450ms;
+}
+
+#lblSuccess span {
+  color: var(--clr_red);
+  font-weight: 500;
+  text-align: center;
+  text-transform: capitalize;
+  font-size: 1.2rem;
+  margin-top: -5em;
+}
+
+#lblSuccess span {
+  color: var(--clr_primary);
+}
+
+@media only screen and (max-width: 600px) {
+  main {
+    grid-template-columns: 1fr;
+    padding: 2em 1em;
+    border-radius: 0;
+  }
+
+  #contact .grid_twocol {
+    grid-template-columns: 1fr;
+  }
+}

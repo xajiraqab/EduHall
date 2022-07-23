@@ -1,0 +1,172 @@
+main.profile {
+  display: grid;
+  gap: 0em;
+  width: 500px;
+}
+
+.profile p {
+  display: flex;
+  align-items: center;
+  font-size: 1.2rem;
+  gap: .5em;
+  /* border: 1px solid #dfdfdf; */
+
+  border-radius: 5px;
+}
+
+.profile p button {
+  opacity: 0;
+}
+
+.profile p:hover button {
+  transition: opacity ease 250ms;
+  opacity: 1;
+}
+
+.profile #btnLogout {
+  margin-top: 4em;
+  /* width: 150px; */
+}
+
+
+.profile .books {
+  display: grid;
+  margin-top: 2em;
+}
+
+.profile .books h2 {
+  padding-top: 1em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: .5em;
+}
+
+.profile .books span {
+  border-bottom: 1px solid #dfdfdf;
+}
+
+.profile .books h3 button {
+  margin: 0;
+}
+
+.profile a {
+  text-decoration: none;
+  font-size: 1rem;
+  margin: 0;
+  transition: color ease 250ms;
+  font-weight: 500;
+  color: var(--clr_primary);
+}
+
+.profile a:hover {
+  color: var(--clr_primary);
+  text-decoration: underline;
+}
+
+dialog {
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(2px);
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: auto;
+  height: auto;
+  border: none;
+  place-items: center;
+  z-index: 1;
+}
+
+dialog h2 {
+  margin-bottom: 1em;
+}
+
+.dialog_content {
+  width: 450px;
+  max-width: 100%;
+  margin: auto;
+  margin-top: 150px;
+  background: white;
+  padding: 3em;
+  border-radius: 16px;
+  box-shadow: 2px 4px 16px rgba(0, 0, 0, 0.1);
+  animation: anShowUp ease 450ms;
+}
+
+.dialog_content form {
+  position: relative;
+  display: grid;
+  gap: 1em;
+}
+
+.dialog_content label {
+  flex: 1;
+}
+
+#btnSubmitCode {
+  margin-top: 2em;
+  position: relative;
+  overflow: hidden;
+}
+
+#lblSuccess,
+#lblSuccessPassword,
+#lblError {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: red;
+  background: white;
+  display: grid;
+  place-items: center;
+  display: none;
+}
+
+#lblSuccess svg,
+#lblSuccessPassword svg {
+  fill: var(--clr_primary);
+  animation: anShowUp ease 450ms;
+}
+
+#lblError span,
+#lblSuccess span,
+#lblSuccessPassword span {
+  color: var(--clr_red);
+  font-weight: 500;
+  text-align: center;
+  text-transform: capitalize;
+  font-size: 1.2rem;
+}
+
+#lblSuccess span,
+#lblSuccessPassword span {
+  color: var(--clr_primary);
+}
+
+#lblError svg {
+  fill: var(--clr_red);
+  animation: anShowUp ease 450ms;
+}
+
+@media only screen and (max-width: 600px) {
+  main.profile {
+    grid-template-columns: 1fr;
+    padding: 2em 1em;
+    border-radius: 0;
+    margin: 50px auto;
+  }
+
+  #contact .grid_twocol {
+    grid-template-columns: 1fr;
+  }
+
+  .dialog_content {
+    margin-top: 50px;
+    padding: 2em 1em;
+    border-radius: 0;
+  }
+}

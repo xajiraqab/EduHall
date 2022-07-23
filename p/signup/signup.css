@@ -1,0 +1,44 @@
+.grid {
+  display: grid;
+  gap: 2em;
+  margin: 150px auto;
+  max-width: 500px;
+  background: white;
+  padding: 3em;
+  border-radius: 16px;
+  box-shadow: 2px 4px 16px rgba(0, 0, 0, 0.1);
+  animation: anShowUp ease 450ms;
+  transform-origin: top center;
+}
+
+p {
+  text-align: right;
+  word-spacing: 2px;
+}
+
+p a {
+  color: var(--clr_primary);
+  font-weight: bold;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.txtContainer span {
+  color: crimson;
+  font-size: .9rem;
+  margin-top: 5px;
+  display: none;
+}
+
+@media only screen and (max-width: 600px) {
+  .grid {
+    grid-template-columns: 1fr;
+    padding: 2em 1em;
+    border-radius: 0;
+    margin: 50px auto;
+  }
+
+  #contact .grid_twocol {
+    grid-template-columns: 1fr;
+  }
+}
