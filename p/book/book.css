@@ -1,9 +1,13 @@
 main {
+  margin-bottom: -150px;
+  padding-right: 2em;
+}
+
+.book_info {
   display: grid;
   grid-template-columns: 256px 1fr;
   gap: 2em;
-  margin-bottom: -150px;
-  padding-right: 2em;
+  margin-bottom: 3em;
 }
 
 img {
@@ -115,10 +119,38 @@ summary:hover button, .pdf:hover button {
   opacity: 1;
 }
 
+.floating_buttons {
+  position: fixed;
+  bottom: 70px;
+  right: 70px;
+  background: white;
+  margin-top: 1em;
+  gap: .5em;
+  padding: 1em;
+  border-radius: 8px;
+  box-shadow: 2px 4px 16px rgba(0, 0, 0, 0.1);
+  animation: anShowUpBiggerScale ease 450ms;
+  transform-origin: bottom right;
+  display: none;
+  z-index: 2;
+}
+
+.floating_buttons.open {
+  display: grid;
+}
+
+.floating_buttons button {
+  width: 100%;
+}
+
 @media only screen and (max-width: 600px) {
   main {
-    grid-template-columns: 1fr;
+
     padding: 2em 1em;
     border-radius: 0;
+  }
+
+  .book_info {
+    grid-template-columns: 1fr;
   }
 }

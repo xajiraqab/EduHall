@@ -98,3 +98,23 @@ button.orange.action:hover {
     background-color: var(--clr_orange2);
     filter: none;
 }
+
+button.action.larger {
+    width: 50px;
+    height: 50px;
+}
+
+button.action.white {
+    background: white;
+    box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.1);
+    animation: anShowUp ease 450ms;
+}
+
+button.action.white svg {
+    fill: var(--clr_primary);
+}
+
+button.action.white:hover {
+    transition: box-shadow ease 250ms;
+    box-shadow: 2px 4px 16px rgba(0, 0, 0, 0.2);
+}

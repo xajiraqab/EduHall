@@ -50,7 +50,7 @@ if (!isset($book)) {
         height: auto;
         border: none;
         place-items: center;
-        z-index: 1;
+        z-index: 3;
       }
 
       dialog h2 {
@@ -371,51 +371,18 @@ if (!isset($book)) {
   <?php endif ?>
 
 
-  <main>
-    <div>
-      <span class="img_container"><img width="100%" src="../../images/<?php echo $book["image"] ?>" alt="book cover" /></span>
+  <?php if (_isAdmin()) : ?>
 
-      <?php if (_isAdmin()) : ?>
-        <style>
-          .buttons_flex {
-            margin-top: 1em;
-            display: grid;
-            gap: .5em;
-          }
+    <!-- რედაქტირების და წაშლის ღილაკი -->
+    <div class="buttons_flex floating_buttons">
 
-          .buttons_flex button {
-            width: 100%;
-          }
-        </style>
-        <div class="buttons_flex">
-          <button id="btnEdit" class="flat"><?php tr("რედაქტირება", "edit") ?></button>
-          <button id="btnDelete" class="flat red"><?php tr("წაშლა", "delete") ?></button>
+      <!-- კოდების გენერაცია -->
+      <div class="grid" style="margin-bottom: 2em">
+        <label class="txt">
+          <input id="txtGenerateCodesCount" placeholder="<?php tr('რაოდენობა', 'Count') ?>" name="generate_book_codes_count" type="number" required />
+        </label>
+        <button id="btnGenerateCodes" class=""><?php tr("კოდების გენერაცია", "generate codes") ?></button>
 
-          <script>
-            const id = <?php echo $book["id"] ?>;
-            const image = "<?php echo $book["image"] ?>";
-            document.querySelector("#btnEdit").addEventListener("click", () => {
-              document.location.href = `/eduhall.git/p/admin_book_edit/?u=${id}`
-            })
-
-            document.querySelector("#btnDelete").addEventListener("click", () => {
-              if (prompt("თუ გსურთ წიგნის წაშლა შეიყვანეთ სიტყვა: delete?") !== "delete")
-                return
-              JN.post("book_delete", {
-                id,
-                image
-              }, () => window.location.href = "/eduhall.git", error => alert(error))
-            })
-          </script>
-        </div>
-
-        <!-- კოდების გენერაცია -->
-        <div class="grid" style="margin-top: 5em">
-          <label class="txt">
-            <input id="txtGenerateCodesCount" placeholder="<?php tr('რაოდენობა', 'Count') ?>" name="generate_book_codes_count" type="number" required />
-          </label>
-          <button id="btnGenerateCodes" class=""><?php tr("კოდების გენერაცია", "generate codes") ?></button>
-        </div>
         <script>
           const btnGenerateCodes = document.querySelector("#btnGenerateCodes")
           const txtGenerateCodesCount = document.querySelector("#txtGenerateCodesCount");
@@ -450,148 +417,245 @@ if (!isset($book)) {
             })
           })
         </script>
-      <?php endif ?>
+      </div>
+      <button id="btnEdit" class="flat"><?php tr("რედაქტირება", "edit") ?></button>
+      <button id="btnDelete" class="flat red"><?php tr("წაშლა", "delete") ?></button>
+
+      <script>
+        const id = <?php echo $book["id"] ?>;
+        const image = "<?php echo $book["image"] ?>";
+        document.querySelector("#btnEdit").addEventListener("click", () => {
+          document.location.href = `/eduhall.git/p/admin_book_edit/?u=${id}`
+        })
+
+        document.querySelector("#btnDelete").addEventListener("click", () => {
+          if (prompt("თუ გსურთ წიგნის წაშლა შეიყვანეთ სიტყვა: delete?") !== "delete")
+            return
+          JN.post("book_delete", {
+            id,
+            image
+          }, () => window.location.href = "/eduhall.git", error => alert(error))
+        })
+      </script>
     </div>
 
-    <!-- სათაური -->
-    <div class="col_right">
+    <!-- ადმინის მენიუს გასახსნელი -->
+    <style>
+      #btnToggleAdminMenu {
+        position: fixed;
+        right: 10px;
+        bottom: 20px;
+        z-index: 2;
+      }
+
+      #btnAdminMenuCloser {
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        z-index: 1;
+      }
+
+      #btnToggleAdminMenu svg {
+        animation: anShowUpBiggerScale ease 450ms;
+      }
+    </style>
+
+    <!-- უკანა ფონზე დაჭერისას მენიუს დახურვა -->
+    <div id="btnAdminMenuCloser" class="hidden"></div>
+
+    <!-- მენიუს გახსნის ღილაკი -->
+    <button id="btnToggleAdminMenu" class="action white larger">
+
+      <!-- მენიუს იკონი -->
+      <svg id="iconMenu" title="iconMenu" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000">
+        <path d="M0 0h24v24H0V0z" fill="none" />
+        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
+      </svg>
+
+      <!-- მენიუს დახურვის იკონი -->
+      <svg id="iconClose" title="iconClose" class="hidden" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000">
+        <path d="M0 0h24v24H0V0z" fill="none" />
+        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z" />
+      </svg>
+    </button>
+
+    <script>
+      (() => {
+
+        const ui = {
+          adminMenu: document.querySelector(".floating_buttons"),
+          iconMenu: document.querySelector("#iconMenu"),
+          iconClose: document.querySelector("#iconClose"),
+          btnAdminMenuCloser: document.querySelector("#btnAdminMenuCloser"),
+          btnToggleAdminMenu: document.querySelector("#btnToggleAdminMenu")
+        }
+
+        ui.btnToggleAdminMenu.addEventListener("click", () => {
+          ui.iconMenu.classList.toggle("hidden")
+          ui.iconClose.classList.toggle("hidden")
+          ui.btnAdminMenuCloser.classList.toggle("hidden")
+          ui.adminMenu.classList.toggle("open")
+        })
+
+        ui.btnAdminMenuCloser.addEventListener("click", () => {
+          ui.btnToggleAdminMenu.click()
+        })
+
+      })()
+    </script>
+  <?php endif ?>
+
+
+  <main>
+    <div class="book_info">
       <div>
-        <h1><?php echo $book["title"] ?></h1>
-        <p><span><?php tr("ავტორები", "Authors") ?>:</span> <?php echo $book["authors"] ?></p>
-        <p><span><?php tr("გამოშვების წელი", "Year") ?>:</span> <?php echo $book["year"] ?></p>
+        <span class="img_container"><img width="100%" src="../../images/<?php echo $book["image"] ?>" alt="book cover" /></span>
       </div>
 
-      <!-- აღწერა -->
-      <?php if ($book["description"]) : ?>
-        <div class="grid">
-          <h2><?php tr("აღწერა", "description") ?></h2>
-          <?php echo $book["description"] ?>
+      <!-- სათაური -->
+      <div class="col_right">
+        <div>
+          <h1><?php echo $book["title"] ?></h1>
+          <p><span><?php tr("ავტორები", "Authors") ?>:</span> <?php echo $book["authors"] ?></p>
+          <p><span><?php tr("გამოშვების წელი", "Year") ?>:</span> <?php echo $book["year"] ?></p>
         </div>
-      <?php endif; ?>
 
-      <!-- დამხმარე მასალა -->
-      <?php if ($_user && $_user["is_active"] && ($_user["is_admin"] || Db::isMyBook($_user["id"], $book["id"]))) : ?>
-        <div class="grid">
-          <?php $listAttachments = DB::getListAttachments($book["id"]) ?>
-          <?php if ($_user["is_admin"] || count($listAttachments)) : ?>
-            <div class="flex">
-              <h2><?php tr("დამხმარე მასალა", "attachments") ?></h2>
-
-              <?php if ($_user["is_admin"]) : ?>
-
-                <!-- დამხმარე მასალის დამატება -->
-                <button id="btnAttachmentAdd" style="margin-left: auto; margin-right: 10px;" class="flat with_icon">
-                  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="var(--clr_primary)">
-                    <path d="M0 0h24v24H0V0z" fill="none" />
-                    <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
-                  </svg>
-                  <?php tr("მასალის ატვირთვა", "upload attachment") ?>
-                </button>
-                <script>
-                  document.querySelector("#btnAttachmentAdd").addEventListener("click", () => {
-                    editingAttachmentId = -1
-                    ui.lblTitle.innerText = isGeorgian ? "ფაილის ატვირთვა" : "Upload Attachment"
-                    ui.btnSubmitAttachment.innerText = isGeorgian ? "ატვირთვა" : "upload"
-                    ui.frameFileContainer.style.display = "flex"
-                    ui.txtName.value = ""
-                    ui.txtNameGeo.value = ""
-                    ui.dialog.open = true
-                  })
-                </script>
-              <?php endif ?>
-            </div>
-
-            <!-- დამხმარე მასალის ჩამონათვალი -->
-            <div class="attachments">
-              <?php foreach ($listAttachments as $attachment) : ?>
-                <?php if ($attachment["format"] === "pdf") : ?>
-
-                  <!-- pdf -->
-                  <div class="pdf" onclick='if (event.target === event.currentTarget) openPdf("<?php echo $attachment["url"] ?>")'>
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor">
-                      <path d="M0 0h24v24H0V0z" fill="none" />
-                      <path d="M20 2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12zM4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm12 6V9c0-.55-.45-1-1-1h-2v5h2c.55 0 1-.45 1-1zm-2-3h1v3h-1V9zm4 2h1v-1h-1V9h1V8h-2v5h1zm-8 0h1c.55 0 1-.45 1-1V9c0-.55-.45-1-1-1H9v5h1v-2zm0-2h1v1h-1V9z" />
-                    </svg>
-                    <?php echo $attachment[$_isGeorgian ? "name_geo" : "name"] ?>
-                    <?php if ($_user["is_admin"]) : ?>
-
-                      <!-- რედაქტირება / წაშლა  -->
-                      <button onClick='editAttachment(<?php echo json_encode($attachment) ?>)' class="action orange" style="margin-left: auto;"><svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 0 24 24" width="18px" fill="white">
-                          <path d="M0 0h24v24H0z" fill="none" />
-                          <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
-                        </svg>
-                      </button>
-                      <button onClick="deleteAttachment(<?php echo $attachment['id'] ?>, '<?php echo $attachment['url'] ?>')" class="action red"><svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 0 24 24" width="18px" fill="currentColor">
-                          <path d="M0 0h24v24H0z" fill="none" />
-                          <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
-                        </svg>
-                      </button>
-
-                    <?php endif ?>
-
-                  </div>
-                <?php
-                  continue;
-                endif;
-                ?>
-                <details>
-                  <summary>
-
-                    <!-- მუსიკის იკონი -->
-                    <?php if ($attachment["format"] === "mp3") : ?>
-                      <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor">
-                        <path d="M0 0h24v24H0V0z" fill="none" />
-                        <path d="M19 14v3c0 .55-.45 1-1 1h-1v-4h2M7 14v4H6c-.55 0-1-.45-1-1v-3h2m5-13c-4.97 0-9 4.03-9 9v7c0 1.66 1.34 3 3 3h3v-8H5v-2c0-3.87 3.13-7 7-7s7 3.13 7 7v2h-4v8h3c1.66 0 3-1.34 3-3v-7c0-4.97-4.03-9-9-9z" />
-                      </svg>
-
-                      <!-- ვიდეოს იკონი -->
-                    <?php else : ?>
-                      <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor">
-                        <path d="M0 0h24v24H0V0z" fill="none" />
-                        <path d="M15 8v8H5V8h10m1-2H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4V7c0-.55-.45-1-1-1z" />
-                      </svg>
-                    <?php endif ?>
-
-                    <?php echo $attachment[$_isGeorgian ? "name_geo" : "name"] ?>
-
-                    <?php if ($_user["is_admin"]) : ?>
-                      <button onClick='editAttachment(<?php echo json_encode($attachment) ?>)' class="action orange" style="margin-left: auto;"><svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 0 24 24" width="18px" fill="white">
-                          <path d="M0 0h24v24H0z" fill="none" />
-                          <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
-                        </svg>
-                      </button>
-                      <button onClick="deleteAttachment(<?php echo $attachment['id'] ?>, '<?php echo $attachment['url'] ?>')" class="action red"><svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 0 24 24" width="18px" fill="currentColor">
-                          <path d="M0 0h24v24H0z" fill="none" />
-                          <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
-                        </svg>
-                      </button>
-                    <?php endif ?>
+        <!-- აღწერა -->
+        <?php if ($book["description"]) : ?>
+          <div class="grid">
+            <h2><?php tr("აღწერა", "description") ?></h2>
+            <?php echo $book["description"] ?>
+          </div>
+        <?php endif; ?>
 
 
-                  </summary>
-                  <p>
-
-                    <!-- მუსიკა -->
-                    <?php if ($attachment["format"] === "mp3") : ?>
-                      <audio controls controlsList="nodownload" oncontextmenu="return false">
-                        <source src="../../data/<?php echo $attachment["url"] ?>">
-                      </audio>
-
-                      <!-- ვიდეო -->
-                    <?php else : ?>
-                      <video controls controlsList="nodownload" oncontextmenu="return false">
-                        <source src="../../data/<?php echo $attachment["url"] ?>" type="video/mp4">
-                      </video>
-                    <?php endif ?>
-                  </p>
-                </details>
-              <?php endforeach ?>
-            </div>
-          <?php endif ?>
-        </div>
-      <?php endif ?>
+      </div>
     </div>
 
+
+    <!-- დამხმარე მასალა -->
+    <?php if ($_user && $_user["is_active"] && ($_user["is_admin"] || Db::isMyBook($_user["id"], $book["id"]))) : ?>
+      <div class="grid">
+        <?php $listAttachments = DB::getListAttachments($book["id"]) ?>
+        <?php if ($_user["is_admin"] || count($listAttachments)) : ?>
+          <div class="flex">
+            <h2 style="align-self: end"><?php tr("დამხმარე მასალა", "attachments") ?></h2>
+
+            <?php if ($_user["is_admin"]) : ?>
+
+              <!-- დამხმარე მასალის დამატება -->
+              <button id="btnAttachmentAdd" style="margin-left: auto; margin-right: 10px;" class="flat with_icon">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="var(--clr_primary)">
+                  <path d="M0 0h24v24H0V0z" fill="none" />
+                  <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+                </svg>
+                <?php tr("მასალის ატვირთვა", "upload attachment") ?>
+              </button>
+              <script>
+                document.querySelector("#btnAttachmentAdd").addEventListener("click", () => {
+                  editingAttachmentId = -1
+                  ui.lblTitle.innerText = isGeorgian ? "ფაილის ატვირთვა" : "Upload Attachment"
+                  ui.btnSubmitAttachment.innerText = isGeorgian ? "ატვირთვა" : "upload"
+                  ui.frameFileContainer.style.display = "flex"
+                  ui.txtName.value = ""
+                  ui.txtNameGeo.value = ""
+                  ui.dialog.open = true
+                })
+              </script>
+            <?php endif ?>
+          </div>
+
+          <!-- დამხმარე მასალის ჩამონათვალი -->
+          <div class="attachments">
+            <?php foreach ($listAttachments as $attachment) : ?>
+              <?php if ($attachment["format"] === "pdf") : ?>
+
+                <!-- pdf -->
+                <div class="pdf" onclick='if (event.target === event.currentTarget) openPdf("<?php echo $attachment["url"] ?>")'>
+                  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor">
+                    <path d="M0 0h24v24H0V0z" fill="none" />
+                    <path d="M20 2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12zM4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm12 6V9c0-.55-.45-1-1-1h-2v5h2c.55 0 1-.45 1-1zm-2-3h1v3h-1V9zm4 2h1v-1h-1V9h1V8h-2v5h1zm-8 0h1c.55 0 1-.45 1-1V9c0-.55-.45-1-1-1H9v5h1v-2zm0-2h1v1h-1V9z" />
+                  </svg>
+                  <?php echo $attachment[$_isGeorgian ? "name_geo" : "name"] ?>
+                  <?php if ($_user["is_admin"]) : ?>
+
+                    <!-- რედაქტირება / წაშლა  -->
+                    <button onClick='editAttachment(<?php echo json_encode($attachment) ?>)' class="action orange" style="margin-left: auto;"><svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 0 24 24" width="18px" fill="white">
+                        <path d="M0 0h24v24H0z" fill="none" />
+                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
+                      </svg>
+                    </button>
+                    <button onClick="deleteAttachment(<?php echo $attachment['id'] ?>, '<?php echo $attachment['url'] ?>')" class="action red"><svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 0 24 24" width="18px" fill="currentColor">
+                        <path d="M0 0h24v24H0z" fill="none" />
+                        <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
+                      </svg>
+                    </button>
+
+                  <?php endif ?>
+
+                </div>
+              <?php
+                continue;
+              endif;
+              ?>
+              <details>
+                <summary>
+
+                  <!-- მუსიკის იკონი -->
+                  <?php if ($attachment["format"] === "mp3") : ?>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor">
+                      <path d="M0 0h24v24H0V0z" fill="none" />
+                      <path d="M19 14v3c0 .55-.45 1-1 1h-1v-4h2M7 14v4H6c-.55 0-1-.45-1-1v-3h2m5-13c-4.97 0-9 4.03-9 9v7c0 1.66 1.34 3 3 3h3v-8H5v-2c0-3.87 3.13-7 7-7s7 3.13 7 7v2h-4v8h3c1.66 0 3-1.34 3-3v-7c0-4.97-4.03-9-9-9z" />
+                    </svg>
+
+                    <!-- ვიდეოს იკონი -->
+                  <?php else : ?>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor">
+                      <path d="M0 0h24v24H0V0z" fill="none" />
+                      <path d="M15 8v8H5V8h10m1-2H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4V7c0-.55-.45-1-1-1z" />
+                    </svg>
+                  <?php endif ?>
+
+                  <?php echo $attachment[$_isGeorgian ? "name_geo" : "name"] ?>
+
+                  <?php if ($_user["is_admin"]) : ?>
+                    <button onClick='editAttachment(<?php echo json_encode($attachment) ?>)' class="action orange" style="margin-left: auto;"><svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 0 24 24" width="18px" fill="white">
+                        <path d="M0 0h24v24H0z" fill="none" />
+                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
+                      </svg>
+                    </button>
+                    <button onClick="deleteAttachment(<?php echo $attachment['id'] ?>, '<?php echo $attachment['url'] ?>')" class="action red"><svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 0 24 24" width="18px" fill="currentColor">
+                        <path d="M0 0h24v24H0z" fill="none" />
+                        <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
+                      </svg>
+                    </button>
+                  <?php endif ?>
+
+
+                </summary>
+                <p>
+
+                  <!-- მუსიკა -->
+                  <?php if ($attachment["format"] === "mp3") : ?>
+                    <audio controls controlsList="nodownload" oncontextmenu="return false">
+                      <source src="../../data/<?php echo $attachment["url"] ?>">
+                    </audio>
+
+                    <!-- ვიდეო -->
+                  <?php else : ?>
+                    <video controls controlsList="nodownload" oncontextmenu="return false">
+                      <source src="../../data/<?php echo $attachment["url"] ?>" type="video/mp4">
+                    </video>
+                  <?php endif ?>
+                </p>
+              </details>
+            <?php endforeach ?>
+          </div>
+        <?php endif ?>
+      </div>
+    <?php endif ?>
     <script src="book.js"></script>
   </main>
 
