@@ -110,13 +110,25 @@ summary button, .pdf button {
   display: grid;
   place-items: center;
   height: 40px;
-  opacity: 0;
-
 }
 
-summary:hover button, .pdf:hover button {
-  transition: opacity ease 250ms;
+.attachment_menu {
+  background: #fff;
+  border-left: 1px solid #dfdfdf;
+  margin-left: auto;
+  padding: 1em 0.5em;
+  margin-right: -10px;
+  opacity: 0;
+  transform: scale(0);
+  transform-origin: center right;
+  display: flex;
+  gap: 0.5em;
+}
+
+summary:hover .attachment_menu, .pdf:hover .attachment_menu {
+  transition: opacity ease 450ms, transform ease 450ms;
   opacity: 1;
+  transform: scale(1);
 }
 
 .floating_buttons {
