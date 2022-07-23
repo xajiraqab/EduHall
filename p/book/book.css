@@ -2,6 +2,8 @@ main {
   display: grid;
   grid-template-columns: 256px 1fr;
   gap: 2em;
+  margin-bottom: -150px;
+  padding-right: 2em;
 }
 
 img {
@@ -17,6 +19,13 @@ img {
 .grid {
   display: grid;
   gap: .5em;
+}
+
+.attachments {
+  max-height: 75vh;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  overflow-y: auto;
 }
 
 video {
@@ -48,12 +57,14 @@ details, .pdf {
   border-radius: 5px;
   padding: .5em .5em 0;
   overflow: hidden;
+  margin-top: .5em;
 }
 
 .pdf {
   font: inherit;
   text-align: left;
   margin: 0;
+  margin-top: .5em;
   padding: 0.5em;
   background: none;
   cursor: pointer;

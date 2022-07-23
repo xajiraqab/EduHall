@@ -13,6 +13,11 @@ button {
     padding: 0 1em;
 }
 
+button.with_icon {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
 
 button.red {
     background: var(--clr_red);

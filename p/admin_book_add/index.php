@@ -146,7 +146,7 @@
             description_geo: ui.txtDescriptionGeo.value
           }))
 
-          const response = fetch("/alpharocket/api/book_add.php", {
+          const response = fetch("/eduhall.git/api/book_add.php", {
               method: 'POST',
               body: formData
             })
@@ -158,7 +158,7 @@
                 return
               }
 
-              window.location.href = `/alpharocket/p/book?u=${res.id}`;
+              window.location.href = `/eduhall.git/p/book?u=${res.id}`;
             });
 
         })

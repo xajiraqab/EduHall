@@ -37,6 +37,9 @@
   line-height: 1.5;
   letter-spacing: .2px;
   color: var(--clr_c1);
+
+  scrollbar-color: #dfdfdf transparent;
+  scrollbar-width: thin;
 }
 
 *:focus {
@@ -46,6 +49,20 @@
 ::selection {
   color: white;
   background: var(--clr_primary);
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #dfdfdf;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
 }
 
 h1, h2, h3, h4 {

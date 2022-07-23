@@ -163,7 +163,7 @@ if (!isset($book)) {
             description_geo: ui.txtDescriptionGeo.value
           }))
 
-          const response = fetch("/alpharocket/api/book_edit.php", {
+          const response = fetch("/eduhall.git/api/book_edit.php", {
               method: 'POST',
               body: formData
             })
@@ -175,7 +175,7 @@ if (!isset($book)) {
                 return
               }
 
-              window.location.href = `/alpharocket/p/book?u=${id}`;
+              window.location.href = `/eduhall.git/p/book?u=${id}`;
             });
 
         })

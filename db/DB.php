@@ -61,7 +61,7 @@ class DB
 
     public static function getListAttachments($book_id)
     {
-        return DB::select("SELECT * FROM attachments WHERE book_id = $book_id ORDER BY format");
+        return DB::select("SELECT * FROM attachments WHERE book_id = $book_id ORDER BY format desc");
     }
 
     public static function getListMyBooks($user_id, $book_id = -1, $attachment_url = "")

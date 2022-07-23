@@ -3,7 +3,7 @@ const JN = {
   https: false, // ჯერ არ გამოიყენება
   json: true,
 
-  test: "/alpharocket",
+  test: "/eduhall.git",
 
   get: (url, params, callback, error) => {
       let xhr = new XMLHttpRequest();
