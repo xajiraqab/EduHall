@@ -76,7 +76,7 @@ class DB
         if ($book_id !== -1)
             $sql .= " AND b.id = $book_id ";
 
-        $sql .= " AND (EXTRACT(YEAR FROM bc.activate_date) = EXTRACT(YEAR FROM CURRENT_TIMESTAMP) OR EXTRACT(YEAR FROM bc.activate_date) = EXTRACT(YEAR FROM CURRENT_TIMESTAMP) - 1)";
+        $sql .= " AND max_date >= CURRENT_TIMESTAMP";
 
         return Db::select($sql);
     }

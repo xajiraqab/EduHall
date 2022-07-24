@@ -78,6 +78,7 @@ CREATE TABLE `book_codes` (
   `code` varchar(200) NOT NULL,
   `create_date` timestamp NOT NULL DEFAULT current_timestamp(),
   `activate_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `max_date` timestamp NOT NULL DEFAULT current_timestamp(),
   `user_id` int(11) NOT NULL DEFAULT -1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

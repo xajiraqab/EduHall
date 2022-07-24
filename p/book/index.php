@@ -85,6 +85,16 @@ if (!isset($book)) {
         overflow: hidden;
       }
 
+      #lblSubmitAttachment {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        line-height: 50px;
+        color: #fafafa;
+      }
+
       #file_container {
         display: flex;
         height: 50px;
@@ -97,6 +107,13 @@ if (!isset($book)) {
         cursor: pointer;
         position: relative;
         overflow: hidden;
+      }
+
+      #file_container span {
+        line-height: 50px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
 
       #loadingIndicator {
@@ -170,8 +187,8 @@ if (!isset($book)) {
 
 
           <label id="file_container">
-            <input id="file" type="file" hidden accept=".pdf, audio/mp3, video/mp4, video/webm, video/ogg" />
-            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#666">
+            <input id="file" type="file" multiple hidden accept=".pdf, audio/mp3, video/mp4, video/webm, video/ogg" />
+            <svg style="min-width: 24px" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#666">
               <path d="M0 0h24v24H0V0z" fill="none" />
               <path d="M16.5 6v11.5c0 2.21-1.79 4-4 4s-4-1.79-4-4V5c0-1.38 1.12-2.5 2.5-2.5s2.5 1.12 2.5 2.5v10.5c0 .55-.45 1-1 1s-1-.45-1-1V6H10v9.5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V5c0-2.21-1.79-4-4-4S7 2.79 7 5v12.5c0 3.04 2.46 5.5 5.5 5.5s5.5-2.46 5.5-5.5V6h-1.5z" />
             </svg>
@@ -179,7 +196,8 @@ if (!isset($book)) {
           </label>
 
           <button id="btnSubmitAttachment">
-            <div id="loadingIndicator"></div><?php tr("ატვირთვა", "upload") ?>
+            <div id="loadingIndicator"></div>
+            <span id="lblSubmitAttachment"><?php tr("ატვირთვა", "upload") ?></span>
           </button>
 
           <div id="success">
@@ -202,11 +220,21 @@ if (!isset($book)) {
             frameFileContainer: document.querySelector("#file_container"),
             btnSubmitAttachment: document.querySelector("#btnSubmitAttachment"),
             lblLoadingIndicator: document.querySelector("#loadingIndicator"),
+            lblSubmitAttachment: document.querySelector("#lblSubmitAttachment"),
             lblSuccess: document.querySelector("#success"),
             lblTitle: document.querySelector("#formAttachment h2"),
           }
 
+          // დიალოგის დახურვა
           const closeDialog = () => {
+
+            // გათიშული სახელის შესაყვანის ჩართვა
+            document.querySelectorAll("dialog .txt").forEach(txt => txt.classList.remove("disabled"))
+
+            // required ის ჩართვა
+            ui.txtName.setAttribute("required", true)
+            ui.txtNameGeo.setAttribute("required", true)
+
             ui.btnSubmitAttachment.classList.remove("disabled")
             ui.lblLoadingIndicator.style.width = `0`
             ui.txtAttachment.value = ""
@@ -217,13 +245,57 @@ if (!isset($book)) {
             ui.lblSuccess.style.display = "none"
           }
 
+          // ფაილის არჩევისას სახელების ჩაწერა
           ui.txtAttachment.addEventListener("change", e => {
-            const file = ui.txtAttachment.files[0];
-            ui.lblAttachment.innerText = file ? file.name : "<?php tr("აირჩიეთ ფაილი..", "choose attachment..") ?>"
-            if (file) {
+            const listFiles = ui.txtAttachment.files
+            const size = listFiles.length
+
+            // გათიშული სახელის შესაყვანის ჩართვა
+            document.querySelectorAll("dialog .txt").forEach(txt => txt.classList.remove("disabled"))
+
+            // required ის ჩართვა
+            ui.txtName.setAttribute("required", true)
+            ui.txtNameGeo.setAttribute("required", true)
+
+            // თუ არაფელი აურჩევია
+            if (!size) {
+              ui.lblAttachment.innerText = "<?php tr("აირჩიეთ ფაილი..", "choose attachment..") ?>"
+              return
+            }
+
+            // თუ ერთი ფაილი აირჩია
+            if (size === 1) {
+              const file = listFiles[0];
+              ui.lblAttachment.innerText = file.name
               const filename = file.name.split('.')[0]
               ui.txtName.value = filename
               ui.txtNameGeo.value = filename
+              return
+            }
+
+            // თუ რამდენიმე ფაილი აირჩია
+            if (size > 1) {
+
+              // ზემოთ ჩაწერილი სახელის გასუფთავება
+              ui.txtName.value = ""
+              ui.txtNameGeo.value = ""
+
+              // required ის გამორთვა
+              ui.txtName.removeAttribute("required")
+              ui.txtNameGeo.removeAttribute("required")
+
+              // ზემოთ სახელის ჩასაწერების გამორთვა
+              document.querySelectorAll("dialog .txt").forEach(txt => {
+                txt.classList.add("disabled")
+              })
+
+              // არჩეული ფაილების სახელების ჩაწერა
+              let names = "";
+              for (let i = 0; i < size; i++) {
+                const file = listFiles[i];
+                names += file.name.split('.').slice(0, -1).join(" ") + ", "
+              }
+              ui.lblAttachment.innerText = names.slice(0, -2);
             }
           })
 
@@ -234,6 +306,7 @@ if (!isset($book)) {
             closeDialog()
           })
 
+          // წარმატებით ატვირთვის შეტყობინებაზე დაჭერსისას დახურვა დიალოგის
           ui.lblSuccess.addEventListener("click", () => {
             if (ui.lblSuccess.style.display === "grid")
               closeDialog()
@@ -246,8 +319,8 @@ if (!isset($book)) {
             if (ui.btnSubmitAttachment.classList.contains("disabled") || ui.lblSuccess.style.display === "grid")
               return;
 
-            const name = ui.txtName.value
-            const name_geo = ui.txtNameGeo.value
+            let name = ui.txtName.value
+            let name_geo = ui.txtNameGeo.value
 
             // თუ რედაქტირებაა
             if (editingAttachmentId !== -1) {
@@ -274,26 +347,60 @@ if (!isset($book)) {
               return
             }
 
-            const file = ui.txtAttachment.files[0];
-            if (!file) {
-              alert("აირჩიეთ ფაილი!")
-              return
-            }
+            const listFiles = ui.txtAttachment.files
+            const sizeFiles = listFiles.length
 
             ui.btnSubmitAttachment.classList.add("disabled")
             ui.formAttachment.style.pointerEvents = "none"
 
-            JN.get("upload_attachment_get_new_filename", {}, async res => {
+            // ფაილების ატვირთვა
+            let listUploadedFiles = []
 
+            // ახალი ფაილის სახელების წამოღება
+            JN.get("upload_attachment_get_new_filename", {
+              count: sizeFiles
+            }, async res => {
+              listUploadedFiles = res
+
+              for (let j = 0; j < sizeFiles; j++) {
+                const file = listFiles[j];
+
+                if (!file) {
+                  alert("აირჩიეთ ფაილი!")
+                  return
+                }
 
                 const format = file.name.split('.').pop()
-                const filename = res.filename + "." + format
+                const filename = listUploadedFiles[j] + "." + format
 
                 const chunkSize = 10000000 //10mb
                 const url = "/eduhall.git/api/upload_attachment.php"
                 const size = file.size
 
                 const totalWidth = ui.lblAttachment.clientWidth
+
+                // თუ ბევრს ტვირთავს ერთდროულად, ფაილის დასახელება იქნება სახელი
+                if (sizeFiles > 1) {
+                  name = file.name.split('.').slice(0, -1).join(" ")
+                  name_geo = name
+                }
+
+                // ატვირთულ ფაილებში გადატანა, მერე ერთად რომ შეინახოს ბაზაში მიყოლებით. :3
+                listUploadedFiles[j] = {
+                  url: filename,
+                  format,
+                  name,
+                  name_geo,
+                  book_id: <?php echo $book["id"] ?>
+                }
+
+                // ბაზაში შენახვა
+                const index = j + 1
+
+                // ლოადინგის დარესეთება
+                ui.lblLoadingIndicator.style.transition = "none"
+                ui.lblLoadingIndicator.style.width = `0`
+                ui.lblLoadingIndicator.style.transition = undefined
 
                 for (let i = 0; i <= size; i += Math.min(size - i, chunkSize)) {
 
@@ -309,37 +416,38 @@ if (!isset($book)) {
 
                   const percent = Math.floor(i * 1.0 / size * 100)
                   ui.lblLoadingIndicator.style.width = `${percent}%`
+                  ui.lblSubmitAttachment.innerText = `<?php tr("ატვირთვა", "upload") ?> (${index}/${sizeFiles})`
 
                   if (i === size)
                     break
                 }
 
-                // ბაზაში შენახვა
-                JN.post("upload_attachment_save_to_db", {
-                    url: filename,
-                    format,
-                    name,
-                    name_geo,
-                    book_id: <?php echo $book["id"] ?>
-                  }, res => {
+                // ბაზაში შენახვა ანატვირთი ფაილების
+                if (index === sizeFiles) {
+                  JN.post("upload_attachment_save_to_db", {
+                      listUploadedFiles
+                    }, res => {
 
-                    ui.lblSuccess.style.display = "grid"
-                    setTimeout(() => window.location.reload(), 1200);
-                  },
-                  error => {
-                    alert(error)
-                    ui.btnSubmitAttachment.classList.remove("disabled")
-                    ui.formAttachment.style.pointerEvents = "all"
-                    ui.lblLoadingIndicator.style.width = `0`
-                  })
+                      ui.lblSuccess.style.display = "grid"
+                      setTimeout(() => window.location.reload(), 1200);
+                    },
+                    error => {
+                      alert(error)
+                      ui.btnSubmitAttachment.classList.remove("disabled")
+                      ui.formAttachment.style.pointerEvents = "all"
+                      ui.lblLoadingIndicator.style.width = `0`
+                    })
+                }
+              }
 
-              },
-              error => {
-                alert(error)
-                ui.btnSubmitAttachment.classList.remove("disabled")
-                ui.formAttachment.style.pointerEvents = "all"
-                ui.lblLoadingIndicator.style.width = `0`
-              })
+            }, error => {
+              alert(error)
+              ui.btnSubmitAttachment.classList.remove("disabled")
+              ui.formAttachment.style.pointerEvents = "all"
+              ui.lblLoadingIndicator.style.width = `0`
+            })
+
+
           })
         </script>
     </dialog>
@@ -349,7 +457,7 @@ if (!isset($book)) {
       const editAttachment = attachment => {
         editingAttachmentId = attachment.id
         ui.lblTitle.innerText = isGeorgian ? "რედაქტირება" : "update attachment"
-        ui.btnSubmitAttachment.innerText = isGeorgian ? "განახლება" : "update"
+        ui.lblSubmitAttachment.innerText = isGeorgian ? "განახლება" : "update"
         ui.frameFileContainer.style.display = "none"
         ui.txtName.value = attachment.name
         ui.txtNameGeo.value = attachment.name_geo
@@ -557,7 +665,7 @@ if (!isset($book)) {
                 document.querySelector("#btnAttachmentAdd").addEventListener("click", () => {
                   editingAttachmentId = -1
                   ui.lblTitle.innerText = isGeorgian ? "ფაილის ატვირთვა" : "Upload Attachment"
-                  ui.btnSubmitAttachment.innerText = isGeorgian ? "ატვირთვა" : "upload"
+                  ui.lblSubmitAttachment.innerText = isGeorgian ? "ატვირთვა" : "upload"
                   ui.frameFileContainer.style.display = "flex"
                   ui.txtName.value = ""
                   ui.txtNameGeo.value = ""

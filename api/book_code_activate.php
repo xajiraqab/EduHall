@@ -18,7 +18,7 @@ if ($book_code["user_id"] !== "-1")
 $conn = DB::getConnection();
 
 // ბაზაში მომხმარებელზე მიბმა კოდის
-$query = $conn->prepare("UPDATE book_codes SET user_id = :user_id, activate_date = CURRENT_TIMESTAMP WHERE id = :id");
+$query = $conn->prepare("UPDATE book_codes SET user_id = :user_id, activate_date = CURRENT_TIMESTAMP, max_date = DATE_ADD(CURRENT_TIMESTAMP, INTERVAL 1 YEAR) WHERE id = :id");
 $query->bindParam(":id", $book_code["id"]);
 $query->bindParam(":user_id", $_user["id"]);
 $query->execute();

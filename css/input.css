@@ -17,6 +17,11 @@ label.txt {
     align-content: start;
 }
 
+label.txt.disabled {
+    pointer-events: none;
+    opacity: 0.3;
+}
+
 label.txt div {
     display: flex;
     align-items: center;

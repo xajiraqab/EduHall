@@ -89,6 +89,7 @@ summary {
   gap: 10px;
   border-bottom: 1px solid transparent;
   height: 56px;
+  position: relative;
 }
 
 summary:hover, .pdf:hover {
@@ -123,10 +124,17 @@ summary button, .pdf button {
   transform-origin: center right;
   display: flex;
   gap: 0.5em;
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 55px;
+  padding: 0 1em;
+  padding-left: 0.5em;
+  align-items: center;
 }
 
 summary:hover .attachment_menu, .pdf:hover .attachment_menu {
-  transition: opacity ease 450ms, transform ease 450ms;
+  transition: opacity ease 250ms, transform ease 250ms;
   transition-delay: 500ms;
   opacity: 1;
   transform: scale(1);
