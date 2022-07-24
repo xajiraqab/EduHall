@@ -93,4 +93,9 @@ class DB
     {
         return Db::select_single("SELECT b.title, b.title_geo, bc.* FROM `book_codes` bc INNER JOIN books b ON bc.book_id = b.id AND bc.code = '$book_code'");
     }
+
+    public static function getBookStatistics($book_id)
+    {
+        return Db::select_single("select (select count(id) from book_codes where book_id = $book_id) as total, (select count(id) from book_codes where max_date < now() and user_id != -1 and book_id = $book_id) as expired, (select count(id) from book_codes where max_date >= now() and user_id != -1 and book_id = $book_id) as active");
+    }
 }

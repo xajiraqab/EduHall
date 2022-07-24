@@ -164,6 +164,17 @@ summary:hover .attachment_menu, .pdf:hover .attachment_menu {
   width: 100%;
 }
 
+.statistics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-bottom: 1px solid #dfdfdf;
+  padding-bottom: 1em;
+}
+
+.statistics span {
+  text-align: right;
+}
+
 @media only screen and (max-width: 600px) {
   main {
 

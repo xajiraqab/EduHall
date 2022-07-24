@@ -490,7 +490,15 @@ if (!isset($book)) {
           <input id="txtGenerateCodesCount" placeholder="<?php tr('რაოდენობა', 'Count') ?>" name="generate_book_codes_count" type="number" required />
         </label>
         <button id="btnGenerateCodes" class=""><?php tr("კოდების გენერაცია", "generate codes") ?></button>
+        <p class="statistics">
 
+          <?php $stats = Db::getBookStatistics($book["id"]) ?>
+
+          <strong><?php tr("სულ:", "total:") ?></strong><span><?php echo $stats["total"] ?></span>
+          <strong><?php tr("ვადაგასული:", "expired:") ?></strong><span><?php echo $stats["expired"] ?></span>
+          <strong><?php tr("არააქტიური:", "inactive:") ?></strong><span><?php echo $stats["total"] - $stats["active"] ?></span>
+          <strong><?php tr("აქტიური:", "active:") ?></strong><span><?php echo $stats["active"] ?></span>
+        </p>
         <script>
           const btnGenerateCodes = document.querySelector("#btnGenerateCodes")
           const txtGenerateCodesCount = document.querySelector("#txtGenerateCodesCount");
