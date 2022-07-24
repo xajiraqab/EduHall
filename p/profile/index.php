@@ -26,8 +26,10 @@ _usersOnly();
 <body>
   <?php include("../../partials/header.php") ?>
 
-  <dialog>
-    <div class="dialog_content">
+
+
+  <dialog <?php echo isset($_SESSION["book_code_to_activate"]) ? 'open' : '' ?>>
+    <div class="dialog_content" <?php echo isset($_SESSION["book_code_to_activate"]) ? 'style="animation: none"' : '' ?>>
       <form id="form_code">
         <h2><?php tr("შეიყვანეთ წიგნის კოდი", "enter book code") ?></h2>
 
@@ -35,13 +37,13 @@ _usersOnly();
         <div class="flex">
           <label class="txt">
             <?php tr("კოდი", "code") ?>
-            <input id="txtCode" type="text" required />
+            <input id="txtCode" type="text" required value="<?php echo isset($_SESSION["book_code_to_activate"]) ? $_SESSION["book_code_to_activate"] : "" ?>" />
           </label>
         </div>
 
         <!-- გააქტიურება -->
         <button id="btnSubmitCode">
-          <div id="loadingIndicator"></div><?php tr("გააქტიურება", "activate") ?>
+          <div id="loadingIndicator"></div><?php tr("გააქტიურება", "activate book") ?>
         </button>
 
         <!-- წარმატების მაჩვენებელი -->
@@ -60,6 +62,9 @@ _usersOnly();
           </svg>
           <span id="lblErrorText"></span>
         </div>
+
+        <!-- წიგნის პირდაპირ გააქტიურებისას ფორმის საფარი :3 -->
+        <div id="form_cover_for_activating_book_code" style="display: <?php echo isset($_SESSION["book_code_to_activate"]) ? "block" : "none" ?>"></div>
       </form>
 
       <script>
@@ -72,15 +77,18 @@ _usersOnly();
           lblSuccessText: document.querySelector("#lblSuccessText"),
           lblError: document.querySelector("#lblError"),
           lblErrorText: document.querySelector("#lblErrorText"),
+          formCover: document.querySelector("#form_cover_for_activating_book_code"),
+          dlgContent: document.querySelector(".dialog_content"),
         }
 
         // დიალოგის დახურვა
         const closeDialog = () => {
           ui.btnSubmitCode.classList.remove("disabled")
-          ui.txtCode.value = ""
           ui.dialog.open = false
           ui.lblSuccess.style.display = "none"
           ui.lblError.style.display = "none"
+          ui.formCover.style.display = "none"
+          ui.dlgContent.removeAttribute("style")
         }
 
         // დიალოგის დახურვა
@@ -107,12 +115,14 @@ _usersOnly();
             res => {
               ui.lblSuccessText.innerText = `„${res.book_name}“ - ${isGeorgian ? "წიგნი წარმატებით გააქტიურდა" : "book activated"}`
               ui.lblSuccess.style.display = "grid"
+              ui.formCover.style.display = "none"
               setTimeout(() => window.location.reload(), 3000);
             },
             error => {
 
               ui.lblErrorText.innerText = error
               ui.lblError.style.display = "grid"
+              ui.formCover.style.display = "none"
 
               setTimeout(() => {
                 ui.lblError.style.display = "none"
@@ -125,6 +135,12 @@ _usersOnly();
 
 
         })
+
+        <?php if (isset($_SESSION["book_code_to_activate"])) : ?>
+          ui.btnSubmitCode.click()
+        <?php endif ?>
+
+        <?php unset($_SESSION["book_code_to_activate"]) ?>
       </script>
   </dialog>
 

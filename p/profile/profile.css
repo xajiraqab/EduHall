@@ -130,6 +130,16 @@ dialog h2 {
   display: none;
 }
 
+#form_cover_for_activating_book_code {
+  display: none;
+  position: absolute;
+  left: -20px;
+  right: -20px;
+  top: -20px;
+  bottom: -20px;
+  background: white;
+}
+
 #lblSuccess svg,
 #lblSuccessPassword svg {
   fill: var(--clr_primary);

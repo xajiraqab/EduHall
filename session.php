@@ -30,7 +30,7 @@ function _usersOnly()
 {
   global $_user;
   if (!$_user) {
-    header("Location: ../login");
+    header("Location: ../signup");
     die();
   }
 }

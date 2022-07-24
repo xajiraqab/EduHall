@@ -496,12 +496,16 @@ if (!isset($book)) {
           const txtGenerateCodesCount = document.querySelector("#txtGenerateCodesCount");
           btnGenerateCodes.addEventListener("click", () => {
 
+            if (btnGenerateCodes.classList.contains("disabled"))
+              return
+
             const count = parseInt(txtGenerateCodesCount.value)
             if (!count) {
               alert(isGeorgian ? "შეიყვანეთ რაოდენობა!" : "enter amount of book codes")
               return
             }
-            if (btnGenerateCodes.classList.contains("disabled"))
+
+            if (prompt(`წიგნის ${count} კოდის გენერაციისთვის შეიყვანეთ სიტყვა: generate`) !== "generate")
               return
 
             btnGenerateCodes.classList.add("disabled")
@@ -512,8 +516,8 @@ if (!isset($book)) {
             }, res => {
 
               let a = document.createElement('a');
-              a.href = "data:application/octet-stream," + encodeURIComponent(res.generatedData);
-              a.download = `book_codes_${new Date().toLocaleString()}.txt`;
+              a.href = "/eduhall.git/api/last_book_codes.zip";
+              a.download = `book_codes_${new Date().toLocaleString()}.zip`;
               a.click();
 
               txtGenerateCodesCount.value = ""
