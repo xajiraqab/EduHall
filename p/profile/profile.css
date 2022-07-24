@@ -24,7 +24,12 @@ main.profile {
 }
 
 .profile #btnLogout {
-  margin-top: 4em;
+  background: none;
+}
+
+.profile #btnLogout:hover {
+  transition: background ease 250ms;
+  background: var(--clr_red3);
 }
 
 .profile .books {
@@ -50,7 +55,7 @@ main.profile {
 
 .profile a {
   text-decoration: none;
-  font-size: 1rem;
+  font-size: 1.2rem;
   font-style: italic;
   margin: 0;
   transition: color ease 250ms;

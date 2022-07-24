@@ -137,7 +137,7 @@ _usersOnly();
       <?php tr("პროფილი", "profile") ?>
 
       <!-- გასვლა -->
-      <button id="btnLogout" class="flat red with_icon" style="margin: 0;">
+      <button id="btnLogout" class="flat red with_icon">
         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000">
           <path d="M0 0h24v24H0z" fill="none" />
           <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z" />
@@ -180,7 +180,7 @@ _usersOnly();
 
     <!-- პაროლის შეცვლა -->
     <div>
-      <button id="btnChangePassword" class="flat with_icon " style="background: none; padding-left: 0; padding-top: .5em">
+      <button id="btnChangePassword" class="flat with_icon" style="font-style: italic; background: none; padding-left: 0; padding-top: .5em">
         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="var(--clr_primary)">
           <g fill="none">
             <path d="M0 0h24v24H0V0z" />
@@ -221,7 +221,7 @@ _usersOnly();
               <path d="M0 0h24v24H0V0z" fill="none" />
               <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
             </svg>
-            <?php echo tr("წიგნის დამატება", "add book") ?>
+            <?php echo tr("წიგნის დამატება", "enter book code") ?>
           </button>
         <?php endif ?>
       </h2>

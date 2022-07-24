@@ -65,7 +65,7 @@ button.flat:hover {
 }
 
 button.flat.red {
-    color: vaR(--clr_red);
+    color: var(--clr_red);
     background: var(--clr_red3);
 }
 
