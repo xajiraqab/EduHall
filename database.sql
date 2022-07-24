@@ -63,8 +63,8 @@ CREATE TABLE `books` (
 --
 
 INSERT INTO `books` (`id`, `user_id`, `title`, `title_geo`, `authors`, `authors_geo`, `year`, `description`, `description_geo`, `image`, `added_date`) VALUES
-(1, 1, 'Alpha Rocket - Part 1', 'Alpha Rocket - ნაწილი 1', 'Tea Luarsabishvili, Kristine Turberidze', 'თეა ლუარსაბიშვილი, ქრისტინე თუთბერიძე', 2022, '', '', '62dc60cede30a.png', '2022-07-23 20:57:50'),
-(2, 1, 'Alpha Rocket - Part 2', 'Alpha Rocket - ნაწილი 2', 'Tea Luarsabishvili, Kristine Turberidze', 'თეა ლუარსაბიშვილი, ქრისტინე თუთბერიძე', 2023, '', '', '62dc60e16f7c3.png', '2022-07-23 20:58:09');
+(1, 1, 'Alpha Rocket - Part 1', 'Alpha Rocket - ნაწილი 1', 'Tea Luarsabishvili, Kristine Turberidze', 'თეა ლუარსაბიშვილი, ქრისტინე თუთბერიძე', 2022, '', '', '62dda8b042936.png', '2022-07-23 20:57:50'),
+(2, 1, 'Alpha Rocket - Part 2', 'Alpha Rocket - ნაწილი 2', 'Tea Luarsabishvili, Kristine Turberidze', 'თეა ლუარსაბიშვილი, ქრისტინე თუთბერიძე', 2023, '', '', '62dda8c464e57.png', '2022-07-23 20:58:09');
 
 -- --------------------------------------------------------
 
