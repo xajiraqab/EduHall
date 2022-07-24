@@ -1,7 +1,7 @@
 main.profile {
   display: grid;
   gap: 0em;
-  width: 500px;
+  width: 700px;
 }
 
 .profile p {
@@ -9,9 +9,9 @@ main.profile {
   align-items: center;
   font-size: 1.2rem;
   gap: .5em;
-  /* border: 1px solid #dfdfdf; */
-
-  border-radius: 5px;
+  padding: .5em;
+  padding-left: 0;
+  border-bottom: 1px solid #dfdfdf;
 }
 
 .profile p button {
@@ -25,13 +25,11 @@ main.profile {
 
 .profile #btnLogout {
   margin-top: 4em;
-  /* width: 150px; */
 }
-
 
 .profile .books {
   display: grid;
-  margin-top: 2em;
+  margin-top: 3em;
 }
 
 .profile .books h2 {
@@ -53,6 +51,7 @@ main.profile {
 .profile a {
   text-decoration: none;
   font-size: 1rem;
+  font-style: italic;
   margin: 0;
   transition: color ease 250ms;
   font-weight: 500;

@@ -127,6 +127,7 @@ summary button, .pdf button {
 
 summary:hover .attachment_menu, .pdf:hover .attachment_menu {
   transition: opacity ease 450ms, transform ease 450ms;
+  transition-delay: 500ms;
   opacity: 1;
   transform: scale(1);
 }

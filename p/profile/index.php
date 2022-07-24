@@ -10,7 +10,7 @@ _usersOnly();
 <head>
   <title><?php tr("პროფილი", "Profile") ?></title>
   <meta name="description" content="Edu Hall is one of Georgia’s leading centers for cultural relations and educational opportunities." />
-  <meta property="og:title" content="Edu Hall - Login" />
+  <meta property="og:title" content="Edu Hall - Profile" />
   <meta property="og:description" content="Edu Hall is one of Georgia’s leading centers for cultural relations and educational opportunities." />
   <meta property="og:url" content="https://www.eduhall.ge/" />
   <meta property="og:site_name" content="one of Georgia’s leading centers for cultural relations and educational opportunities." />
@@ -132,6 +132,21 @@ _usersOnly();
 
   <main class="profile">
 
+    <!-- პროფილი -->
+    <h2 style="display: flex; justify-content: space-between">
+      <?php tr("პროფილი", "profile") ?>
+
+      <!-- გასვლა -->
+      <button id="btnLogout" class="flat red with_icon" style="margin: 0;">
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000">
+          <path d="M0 0h24v24H0z" fill="none" />
+          <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z" />
+        </svg>
+        <?php tr("გასვლა", "logout") ?>
+      </button>
+
+    </h2>
+
     <!-- ფოსტა -->
     <p>
       <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="var(--clr_primary)">
@@ -163,6 +178,20 @@ _usersOnly();
     </p>
 
 
+    <!-- პაროლის შეცვლა -->
+    <div>
+      <button id="btnChangePassword" class="flat with_icon " style="background: none; padding-left: 0; padding-top: .5em">
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="var(--clr_primary)">
+          <g fill="none">
+            <path d="M0 0h24v24H0V0z" />
+            <path d="M0 0h24v24H0V0z" opacity=".87" />
+          </g>
+          <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9V6zm9 14H6V10h12v10zm-6-3c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z" />
+        </svg>
+        <?php tr("პაროლის შეცვლა", "change password") ?>
+      </button>
+    </div>
+
     <!-- აქტივაციის მაჩვენებელი -->
     <?php if (!$_user["is_active"]) : ?>
       <p style="color: var(--clr_red); font-weight: 500">
@@ -179,17 +208,20 @@ _usersOnly();
     <div class="books">
       <h2>
         <?php $listMyBooks = Db::getListMyBooks($_user["id"]) ?>
-        <?php tr("ჩემი წიგნები", "My books");
-        echo (count($listMyBooks) ? " (" . count($listMyBooks) . ")" : "") ?>
+        <?php
+        tr("ჩემი წიგნები", "My books");
+        echo count($listMyBooks) ? " (" . count($listMyBooks) . ")" : "";
+        ?>
 
         <?php if ($_user && $_user["is_active"]) : ?>
 
           <!-- წიგნის დამატება -->
-          <button style="width: 40px; height: 40px; border-radius: 50%; display: grid; place-content: center;" onclick="ui.dialog.open = true; ui.txtCode.focus()">
-            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#fafafa">
+          <button style="margin-left: auto" class="with_icon flat" onclick="ui.dialog.open = true; ui.txtCode.focus()">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="var(--clr_primary)">
               <path d="M0 0h24v24H0V0z" fill="none" />
               <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
             </svg>
+            <?php echo tr("წიგნის დამატება", "add book") ?>
           </button>
         <?php endif ?>
       </h2>
@@ -200,13 +232,7 @@ _usersOnly();
 
     </div>
 
-    <div class="flex">
-      <!-- გასვლა -->
-      <button id="btnChangePassword" class="flat" style="background: none; flex: 1; margin-top: 6em"><?php tr("პაროლის შეცვლა", "change password") ?></button>
 
-      <!-- პაროლის შეცვლა -->
-      <button id="btnLogout" class="flat red" style="flex: 1; margin-top: 6em"><?php tr("გასვლა", "logout") ?></button>
-    </div>
   </main>
 
   <script>
