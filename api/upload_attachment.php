@@ -10,4 +10,4 @@ if (!file_exists($new_name))
 else
   file_put_contents("../data/" . $new_name, file_get_contents($_FILES["data"]["tmp_name"]), FILE_APPEND);
 
-  echo json_encode(["success" => true]);
+echo json_encode(["success" => true]);

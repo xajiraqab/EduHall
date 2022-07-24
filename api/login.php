@@ -4,6 +4,7 @@ require_once("../session.php");
 
 $data = json_decode(file_get_contents('php://input'));
 
+
 //შემოწმება არსებობს თუარა ასეთი username
 $user = DB::select_single("SELECT * FROM users WHERE email='$data->email_phone' OR phone='$data->email_phone'");
 if (!isset($user)) {
