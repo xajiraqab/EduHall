@@ -5,7 +5,8 @@ _adminsOnly();
 $data = json_decode(file_get_contents('php://input'));
 
 // ფაილის წაშლა
-unlink("../data/" . $data->url);
+if (file_exists("../data/" . $data->url))
+  unlink("../data/" . $data->url);
 
 // ბაზაში წაშლა
 $conn = DB::getConnection();
