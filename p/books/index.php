@@ -24,14 +24,14 @@
   <?php include("../../partials/header.php"); ?>
   <main>
     <?php if (_isAdmin()) : ?>
-      <button class="flat" onClick="window.location.href = `/eduhall.git/p/admin_book_add`" style="margin-bottom: 2em"><?php tr("წიგნის დამატება", "add new book") ?></button>
+      <button class="flat" onClick="window.location.href = `/p/admin_book_add`" style="margin-bottom: 2em"><?php tr("წიგნის დამატება", "add new book") ?></button>
 
     <?php endif; ?>
 
     <div class="main_grid">
       <?php $listBooks = DB::getListBooks() ?>
       <?php foreach ($listBooks as $book) : ?>
-        <a href="/eduhall.git/p/book?u=<?php echo $book["id"] ?>" class="img_container">
+        <a href="/p/book?u=<?php echo $book["id"] ?>" class="img_container">
           <img width="100%" height="336" src="../../images/<?php echo $book["image"] ?>" alt="book cover" />
         </a>
       <?php endforeach ?>

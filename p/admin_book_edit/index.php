@@ -163,7 +163,7 @@ if (!isset($book)) {
             description_geo: ui.txtDescriptionGeo.value
           }))
 
-          const response = fetch("/eduhall.git/api/book_edit.php", {
+          const response = fetch("/api/book_edit.php", {
               method: 'POST',
               body: formData
             })
@@ -175,7 +175,7 @@ if (!isset($book)) {
                 return
               }
 
-              window.location.href = `/eduhall.git/p/book?u=${id}`;
+              window.location.href = `/p/book?u=${id}`;
             });
 
         })

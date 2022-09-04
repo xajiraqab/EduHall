@@ -374,7 +374,7 @@ if (!isset($book)) {
                 const filename = listUploadedFiles[j] + "." + format
 
                 const chunkSize = 10000000 //10mb
-                const url = "/eduhall.git/api/upload_attachment.php"
+                const url = "/api/upload_attachment.php"
                 const size = file.size
 
                 const totalWidth = ui.lblAttachment.clientWidth
@@ -524,7 +524,7 @@ if (!isset($book)) {
             }, res => {
 
               let a = document.createElement('a');
-              a.href = "/eduhall.git/api/last_book_codes.zip";
+              a.href = "/api/last_book_codes.zip";
               a.download = `book_codes_${new Date().toLocaleString()}.zip`;
               a.click();
 
@@ -545,7 +545,7 @@ if (!isset($book)) {
         const id = <?php echo $book["id"] ?>;
         const image = "<?php echo $book["image"] ?>";
         document.querySelector("#btnEdit").addEventListener("click", () => {
-          document.location.href = `/eduhall.git/p/admin_book_edit/?u=${id}`
+          document.location.href = `/p/admin_book_edit/?u=${id}`
         })
 
         document.querySelector("#btnDelete").addEventListener("click", () => {
@@ -554,7 +554,7 @@ if (!isset($book)) {
           JN.post("book_delete", {
             id,
             image
-          }, () => window.location.href = "/eduhall.git", error => alert(error))
+          }, () => window.location.href = "/", error => alert(error))
         })
       </script>
     </div>

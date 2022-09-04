@@ -13,7 +13,7 @@ const openPdf = (url) => {
   const iframe = document.createElement("iframe");
   iframe.width = '100%'
   iframe.height = '100%'
-  iframe.src = `/eduhall.git/ViewerJS/?zoom=page-width#../data/${url}`
+  iframe.src = `/ViewerJS/?zoom=page-width#../data/${url}`
   pdfDiv.appendChild(iframe)
 
   document.body.appendChild(pdfCoverDiv)
